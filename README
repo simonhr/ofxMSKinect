@@ -1,0 +1,132 @@
+ofxMSKinect addon for openFrameworks 0.3
+Copyright (c) 2011 Matchbox Mobile Limited
+
+See _License.txt for license and copyright information.
+
+Feature list
+~~~~~~~~~~~~
+1. initialize multiple kinect devices
+   a. Second kinect doesn't support player info in the depth data
+   b. second kinect doesn't support skeleton tracking.
+2. video data
+3. depth Data
+4. transform depth to video
+5. multiple tracked skeleton data
+6. skeleton data contains ofVec3f joint positions
+7. transform joint position to depth position (used to help render in 2d)
+8. Helpful methods to retrieve data as ofTexture, ofImage, ofPixels so you can manipulate.
+
+Install
+~~~~~~~
+Please extract the zip file to the root directory of where you have openframeworks code.
+For example, mine is:
+	G:\Work\Projects\KinectOF\OFInstall\
+The zip only contains our new files, it will not overwrite any of your existing install.
+
+Once extracted, there will be a new folder in
+	addons\ofxMSKinect\
+And a new example in 
+	apps\addonsExamples\msKinectExample\
+
+The example project shows how to use all our currently exposed functionality.
+
+How to use
+~~~~~~~~~~
+See msKinectExample for more details.
+
+Initialize
+~~~~~~~~~~
+ofxMSKinect* kinect;
+kinect = new ofxMSKinect();
+kinect->Init(SINGLE_DEVICE); //Pass MULTIPLE_DEVICES if you intend to use more than 1 kinect.
+       
+if(kinect->HasKinectDevice())
+{
+       firstDevice = kinect->GetKinectDeviceDefault();
+
+       // init the video feed
+       firstDevice->StartRGB(IMAGE_RESOLUTION_640x480); 
+       
+       // init the depth buffer
+       firstDevice->StartDepth(IMAGE_RESOLUTION_320x240); 
+       
+	// init skeleton tracking  
+	firstDevice->StartSkeletonTracking();
+}
+
+Multiple Kinects
+~~~~~~~~~~~
+//Using multiple kinects has the same interface as single kinect
+int count = kinect->GetKinectDeviceCount();
+firstDevice = kinect->GetKinectDevice(1);
+
+
+Camera Data
+~~~~~~~~~~~
+
+Get Video Data
+~~~~~~~~~~~~~~
+//First update the image
+bool isOk = firstDevice->UpdateRGBVideo
+
+//Now render it
+firstDevice->DrawVidImage(x, y, w, h);
+
+
+Get Depth Data 
+~~~~~~~~~~~~~~
+//First update the image
+isOk = firstDevice->UpdateDepth() ;
+
+//Now render it
+firstDevice->DrawDepthTexture(x, y, w, h);
+
+
+
+Get Player index from depth 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~                     
+int player = ofxMSKinect::GetPlayerIndex(shortData[indexOfDepthData];
+
+Get distance from depth data - millimetres
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+int distance = ofxMSKinect::GetDepthDistance(shortData[depthIndex]); 
+
+
+Skeletons
+~~~~~~~~~
+
+Check if skeleton data exists
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if(firstDevice->HasSkeleton())
+
+Get the first tracked skeleton data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ofxMSKinectSkeleton skeletonData;
+
+hasSkeleton = firstDevice->GetFirstTrackedSkeleton(&skeletonData);
+
+Get a tracked skeleton by index
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ofxMSKinectSkeleton skeletonData;
+skeletonData = firstDevice->skeletons[0];
+
+Get Skeleton points
+~~~~~~~~~~~~~~~~~~~
+ofVec3f headPosition = skeletonData.SkeletonPositions[NUI_SKELETON_POSITION_HEAD];
+
+Known issues
+~~~~~~~~~~~~
+1. Depth data has a 4 pixel bar on the left if transposed to image data
+2. No Audio support
+
+
+
+Development Environment and Compiler SUpport
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Tested with the following IDE's:  MS Visual Studio 10,  CodeBlock (using Gcc compiler).
+
+NOTE: !! Developers useing CobeBlock Gcc compiler who require multi device support please define the following in the defines pannel of your project
+#define USING_CODE_BLOCKS_GCC_COMPILER
+
+This is required to allow the code to include an additional Interface definition which allows Codeblocks Gcc compiler to correctly
+confgure registers and stack in order the call into the MSKinetic.dll when addressing vtable entries which require access to the "this" ptr.

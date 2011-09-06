@@ -1,0 +1,24 @@
+Version 0.3 26/08/2011
+********************************************************
+* Added support for multiple kinect devices
+  * Trouble making this work with code::blocks due to the differences in gcc and MS compiler
+* Moved the texture allocation to inside the wrapper. Example code no longer requires its own reference
+* Added methods to support ofPixels and ofImage
+* Abstracted some render methods into the wrapper. Useful for debug purposes.
+* More bug fixes.
+
+Version 0.2 23/08/2011
+********************************************************
+* Added workspace files for Code::Blocks
+* Modifications made to header files to allow a successfull build in Code::Blocks
+* Added code for multiple kinect devices (untested)
+* Added support for multiple tracked skeleton data
+* Fixed a bug where the depth value was not passed to the transform method.
+* Fixed an out of bounds bug while parsing RGB data to Depth
+* Fixed some memory leaks
+* Refactored exposed classes. Many method names have changed casing and in some cases naming to better represent their function.
+
+
+Version 0.1 22/08/2011
+********************************************************
+Initial release 

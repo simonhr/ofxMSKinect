@@ -1,0 +1,37 @@
+<install>
+
+	<version>0.3</version>
+	<author>Matchbox Mobile</author>
+	<url></url>
+
+	<requires>
+	</requires>
+
+	<add>	
+		<addons_h>
+        #ifndef OF_ADDON_USING_OFXADDON
+            #include "ofxAddon.h" //this .h file includes every .h file we need. [[Adding Addons]]
+        #endif
+       </addons_h>
+
+		<src>
+			<folder name="addons/ofxMSKinect/src">			
+				<file>../../../addons/ofxMSKinect/src/ofxMSKinect.h</file>
+				<file>../../../addons/ofxMSKinect/src/ofxMSKinect.cpp</file>
+				<file>../../../addons/ofxMSKinect/src/ofxMSKinectDevice.h</file>
+				<file>../../../addons/ofxMSKinect/src/ofxMSKinectDevice.cpp</file>
+				<file>../../../addons/ofxMSKinect/src/ofxMSKinectSkeleton.h</file>
+				
+			</folder>
+		</src>
+
+		<include>
+			<path>../../../addons/ofxMSKinect/src</path>
+		</include>
+		
+		<link>
+		</link>
+
+	</add>
+	
+</install>
